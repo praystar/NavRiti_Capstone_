@@ -17,7 +17,6 @@ import {
 const app = express();
 
 // ---------------- CORS ----------------
-const isDevelopment = process.env.NODE_ENV !== 'production';
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
   : [
@@ -30,7 +29,7 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 
 // ---------------- CORS (ALLOW ALL) ----------------
 app.use(cors({
-  origin: isDevelopment ? true : allowedOrigins,
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -47,7 +46,7 @@ app.use(
 
 // ---------------- Debug Logger ----------------
 app.use((req, _res, next) => {
-  console.log(`[REQ] ${req.method} ${req.path} AUTH:`, req.headers.authorization || 'none');
+  console.log('[REQ]', req.method, req.path, 'AUTH:', req.headers.authorization || 'none');
   next();
 });
 
