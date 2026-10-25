@@ -588,7 +588,7 @@ const handleSubmit = async () => {
   }
 
   try {
-    const SERVER_BASE = import.meta.env.VITE_SERVER_BASE_API;
+    const SERVER_BASE = import.meta.env.VITE_SERVER_BASE_API ?? '/api';
     setSubmitLocked(true);
     setSubmitStatus('submitting');
 

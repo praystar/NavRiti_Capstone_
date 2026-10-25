@@ -629,7 +629,7 @@ const handleFinalSubmit = async () => {
   setSubmitStatus('submitting');
   
   try {
-    const SERVER_BASE = import.meta.env.VITE_SERVER_BASE_API || 'http://localhost:5000/api';
+    const SERVER_BASE = import.meta.env.VITE_SERVER_BASE_API ?? '/api';
     
     // Prepare request exactly as backend expects
     const requestBody = { 

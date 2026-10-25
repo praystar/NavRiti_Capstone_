@@ -5,7 +5,7 @@ import axios from 'axios';
 export const submitParentPreferences = async (req: Request, res: Response) => {
   try {
     const userInput = req.body;
-    const aiEndpoint = 'http://localhost:8002/rescore-parent';
+    const aiEndpoint = new URL('rescore-parent', `${(process.env.PARENTAL_API_URL ?? 'http://localhost:8002').replace(/\/$/, '')}/`).toString();
 
     // Step 1: Forward EXACT request to AI server
     let aiResponse;

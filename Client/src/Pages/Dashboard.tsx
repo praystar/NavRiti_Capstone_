@@ -12,7 +12,7 @@ import AppNavbar from "../components/AppNavbar.tsx";
 import Background from "../components/Background.tsx";
 import { useNavigate } from "react-router-dom"; // Added import
 
-const SERVER_BASE = "http://localhost:8005";
+const MARKET_API_BASE = import.meta.env.VITE_MARKET_API_BASE ?? '/market';
 
 // --- Interfaces ---
 interface MarketResponse {
@@ -362,7 +362,7 @@ const Dashboard: React.FC = () => {
       }
     };
 
-    const res = await fetch(`${SERVER_BASE}/final-market-ranking`, {
+    const res = await fetch(`${MARKET_API_BASE}/final-market-ranking`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)

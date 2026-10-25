@@ -52,7 +52,7 @@ const surveyQuestions: SurveySection[] = [
   }
 ];
 
-const FASTAPI_URL = "http://localhost:8004";
+const FASTAPI_URL = process.env.SOCIETY_API_URL ?? 'http://localhost:8004';
 
 export const analyzeSocietal = async (req: Request, res: Response) => {
   let savedDocId: string | null = null;
@@ -87,7 +87,7 @@ export const analyzeSocietal = async (req: Request, res: Response) => {
 
     // Try to call FastAPI recommendation endpoint
     try {
-      const fastApiResponse = await axios.post(`${FASTAPI_URL}/recommend`, {
+      const fastApiResponse = await axios.post(new URL('recommend', `${FASTAPI_URL.replace(/\/$/, '')}/`).toString(), {
         answers: answersArray
       }, {
         timeout: 100000 // 10 second timeout

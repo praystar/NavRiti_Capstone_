@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const TOKEN_STORAGE_KEY = 'authToken';
 
-const baseURL = import.meta.env.VITE_SERVER_BASE_API;
+const baseURL = import.meta.env.VITE_SERVER_BASE_API ?? '/api';
 
 // Debug logs removed for production
 // Uncomment below for debugging:
@@ -17,7 +17,7 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem(TOKEN_STORAGE_KEY);
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = 'Bearer ' + token;
   }
   return config;
 });
