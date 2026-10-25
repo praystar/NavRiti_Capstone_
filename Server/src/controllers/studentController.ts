@@ -7,8 +7,9 @@ import fs from 'fs';
 import FormData from 'form-data';
 
 
-// const AI_BASE_URL = 'https://navriti-the-new-direction-2.onrender.com';
-const AI_BASE_URL = 'http://localhost:8001';
+const CAREER_API_BASE_URL = process.env.CAREER_API_URL ?? 'http://localhost:8001';
+
+const careerApiUrl = (path: string) => new URL(path, `${CAREER_API_BASE_URL.replace(/\/$/, '')}/`).toString();
 
 
 /* =========================
@@ -70,7 +71,7 @@ export const submitStage1 = async (req: Request, res: Response) => {
     console.log('Sending to AI:', aiPayload);
 
     // Call FastAPI Stage1
-    const aiResponse = await axios.post(`${AI_BASE_URL}/stage1`, aiPayload);
+    const aiResponse = await axios.post(careerApiUrl('stage1'), aiPayload);
 
     // Persist to DB (use manual inputMethod as per schema enum)
     const profile = new StudentProfile({
@@ -137,7 +138,7 @@ export const submitStage2 = async (req: Request, res: Response) => {
     };
 
     // Call FastAPI Stage2
-    const aiResponse = await axios.post(`${AI_BASE_URL}/stage2`, {
+    const aiResponse = await axios.post(careerApiUrl('stage2'), {
       name,
       input_data: aiInputData
     });
@@ -211,7 +212,7 @@ export const submitStudentProfileWithCV = async (req: Request, res: Response) =>
     
     // Call FastAPI upload_cv WITH NAME AS QUERY PARAMETER
     const aiResponse = await axios.post(
-      `${AI_BASE_URL}/upload_cv?name=${encodeURIComponent(name)}`, // <-- NAME IN QUERY
+      `${careerApiUrl('upload_cv')}?name=${encodeURIComponent(name)}`, // <-- NAME IN QUERY
       form,
       { 
         headers: {

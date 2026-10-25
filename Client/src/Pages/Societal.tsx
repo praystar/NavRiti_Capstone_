@@ -78,7 +78,7 @@ const likertOptions: { value: number; label: string; color: string; icon: any }[
   { value: 5, label: "Strongly Agree", color: "from-indigo-500 to-purple-500", icon: Star }
 ];
 
-const SERVER_BASE = import.meta.env.VITE_SERVER_BASE_API ?? '';
+const SERVER_BASE = import.meta.env.VITE_SERVER_BASE_API ?? '/api';
 const API_ROUTE = `${SERVER_BASE}/societal/analyze`;
 
 const CareerSurveyForm: React.FC = () => {
@@ -257,12 +257,6 @@ const renderQuestionText = (text: string) => {
   setLoading(true);
   setServerResult(null);
   setSubmitted(true);
-
-  if (!SERVER_BASE) {
-    setServerResult({ ok: false, error: 'VITE_SERVER_BASE_API is not configured.' });
-    setLoading(false);
-    return;
-  }
 
   const payload = buildPayload();
 

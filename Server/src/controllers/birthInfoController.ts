@@ -29,7 +29,8 @@ export const analyzeBirthInfo = async (req: Request, res: Response) => {
     // Call Kundali API
     let kundaliResponse;
     try {
-      const response = await fetch('http://localhost:8003/kundali', {
+      const kundaliUrl = new URL('kundali', `${(process.env.KUNDALI_API_URL ?? 'http://localhost:8003').replace(/\/$/, '')}/`).toString();
+      const response = await fetch(kundaliUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(kundaliRequest),

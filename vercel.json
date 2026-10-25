@@ -1,0 +1,75 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": [
+    {
+      "name": "client",
+      "root": "Client",
+      "framework": "vite",
+      "buildCommand": "npm run build"
+    },
+    {
+      "name": "server",
+      "root": "Server",
+      "runtime": "nodejs22.x",
+      "entrypoint": "api/index.ts",
+      "bindings": [
+        { "type": "service", "service": "career_api", "format": "url", "env": "CAREER_API_URL" },
+        { "type": "service", "service": "kundali_api", "format": "url", "env": "KUNDALI_API_URL" },
+        { "type": "service", "service": "parental_api", "format": "url", "env": "PARENTAL_API_URL" },
+        { "type": "service", "service": "society_api", "format": "url", "env": "SOCIETY_API_URL" }
+      ]
+    },
+    {
+      "name": "career_api",
+      "root": "models/career_api",
+      "runtime": "python3.12",
+      "entrypoint": "main.py"
+    },
+    {
+      "name": "kundali_api",
+      "root": "models/kundali_api",
+      "runtime": "python3.12",
+      "entrypoint": "main.py"
+    },
+    {
+      "name": "market_api",
+      "root": "models/market_api",
+      "runtime": "python3.12",
+      "entrypoint": "main.py"
+    },
+    {
+      "name": "parental_api",
+      "root": "models/parental_api",
+      "runtime": "python3.12",
+      "entrypoint": "app_parent.py"
+    },
+    {
+      "name": "society_api",
+      "root": "models/society_api",
+      "runtime": "python3.12",
+      "entrypoint": "main.py"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api",
+      "destination": { "service": "server", "path": "/api" }
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": { "service": "server", "path": "/api/$1" }
+    },
+    {
+      "source": "/market",
+      "destination": { "service": "market_api", "path": "/" }
+    },
+    {
+      "source": "/market/(.*)",
+      "destination": { "service": "market_api", "path": "/$1" }
+    },
+    {
+      "source": "/(.*)",
+      "destination": { "service": "client", "path": "/$1" }
+    }
+  ]
+}

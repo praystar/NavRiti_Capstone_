@@ -33,7 +33,7 @@ import {
 import AppNavbar from "../components/AppNavbar.tsx";
 import Background from "../components/Background.tsx";
 
-const SERVER_BASE = import.meta.env.VITE_SERVER_BASE_API;
+const SERVER_BASE = import.meta.env.VITE_SERVER_BASE_API ?? '/api';
 
 
 // New type matching AI server format
@@ -459,8 +459,6 @@ const onSubmit = async (ev?: React.FormEvent) => {
 
   try {
     setLoading(true);
-    if (!SERVER_BASE) throw new Error("VITE_SERVER_BASE_API not configured");
-
     const res = await fetch(`${SERVER_BASE}/parent/preferences`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
